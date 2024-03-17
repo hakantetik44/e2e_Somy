@@ -2,22 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Start Appium') {
+            steps {
+                // Uygulamayı başlatmak için Appium'u çalıştır
+                sh 'appium'
+            }
+        }
+
+        stage('Run Tests') {
             steps {
                 // Git repository'yi kontrol et
                 checkout scm
-            }
-        }
 
-        stage('Build') {
-            steps {
                 // Maven clean install komutunu çalıştır
                 sh 'mvn clean install'
-            }
-        }
 
-        stage('Test') {
-            steps {
                 // Cucumber raporlarını oluşturmak için Cucumber testlerini çalıştır
                 sh 'mvn test -Dcucumber.publish.enabled=true'
             }
