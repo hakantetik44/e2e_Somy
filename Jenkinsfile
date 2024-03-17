@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    // Import JsonOutput class
-    import groovy.json.JsonOutput
-
     stages {
         stage('Checkout') {
             steps {
@@ -50,12 +47,11 @@ pipeline {
                         acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
-                        requestBody: JsonOutput.toJson(requestBody),
+                        requestBody: groovy.json.JsonOutput.toJson(requestBody),
                         responseHandle: 'NONE',
                         url: apiUrl,
                         validResponseCodes: '200'
                     )
-
 
                     if (response.status != 200) {
                         error "Failed to publish Cucumber report to Jira. Status code: ${response.status}, Response: ${response.content}"
