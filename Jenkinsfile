@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Git repository'i kontrol et
+                // Git repository'yi kontrol et
                 checkout scm
             }
         }
@@ -27,7 +27,18 @@ pipeline {
     post {
         always {
             // Cucumber raporlarını yayınlamak için post-build aşaması
-           cucumber(fileIncludePattern: '**/cucumber*.json')
+            cucumberReport()
         }
     }
+}
+
+def cucumberReport() {
+    // Cucumber raporlarını oluşturmak için maven-cucumber-reporting eklentisini kullan
+    step([$class: 'CucumberReportPublisher',
+          jsonReportDirectory: '/Users/macbook/IdeaProjects/e2e_Somy/target',
+          outputDirectory: '/Users/macbook/IdeaProjects/e2e_Somy/target',
+          fileIncludePattern: '*.json',
+          trendsLimit: 0,
+          ignoreBadSteps: true,
+          parallelTesting: false])
 }
