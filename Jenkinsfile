@@ -22,23 +22,27 @@ pipeline {
                 sh 'mvn test -Dcucumber.publish.enabled=true'
             }
         }
-    }
 
-    post {
-        always {
-            // Cucumber raporlarını yayınlamak için post-build aşaması
-            cucumberReport()
+        stage('Publish Cucumber Report') {
+            steps {
+                script {
+                    // Cucumber raporlarını oluşturmak için maven-cucumber-reporting eklentisini kullan
+                    def jsonReportDirectory = "/Users/macbook/IdeaProjects/e2e_Somy/target"
+                    def outputDirectory = "/Users/macbook/IdeaProjects/e2e_Somy/target"
+                    def fileIncludePattern = "*.json"
+                    def trendsLimit = 0
+                    def ignoreBadSteps = true
+                    def parallelTesting = false
+
+                    step([$class: 'CucumberReportPublisher',
+                          jsonReportDirectory: jsonReportDirectory,
+                          outputDirectory: outputDirectory,
+                          fileIncludePattern: fileIncludePattern,
+                          trendsLimit: trendsLimit,
+                          ignoreBadSteps: ignoreBadSteps,
+                          parallelTesting: parallelTesting])
+                }
+            }
         }
     }
-}
-
-def cucumberReport() {
-    // Cucumber raporlarını oluşturmak için maven-cucumber-reporting eklentisini kullan
-    step([$class: 'CucumberReportPublisher',
-          jsonReportDirectory: '/Users/macbook/IdeaProjects/e2e_Somy/target',
-          outputDirectory: '/Users/macbook/IdeaProjects/e2e_Somy/target',
-          fileIncludePattern: '*.json',
-          trendsLimit: 0,
-          ignoreBadSteps: true,
-          parallelTesting: false])
 }
