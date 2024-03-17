@@ -2,22 +2,32 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                // Maven projesini temizle ve derle
-                sh 'mvn clean compile'
+                // Git repository'i kontrol et
+                checkout scm
             }
         }
+
+        stage('Build') {
+            steps {
+                // Maven clean install komutunu çalıştır
+                sh 'mvn clean install'
+            }
+        }
+
         stage('Test') {
             steps {
-                // Cucumber testlerini çalıştır ve raporu oluştur
+                // Cucumber raporlarını oluşturmak için Cucumber testlerini çalıştır
                 sh 'mvn test -Dcucumber.publish.enabled=true'
             }
         }
-        stage('Deploy') {
-            steps {
-                // Uygulamanın dağıtımı için gerekli adımları buraya ekleyin
-            }
+    }
+
+    post {
+        always {
+            // Cucumber raporlarını yayınlamak için post-build aşaması
+            cucumber()
         }
     }
 }
