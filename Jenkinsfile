@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+               sh 'mvn test -Dcucumber.publish.enabled=true'
             }
         }
         stage('Deploy') {
