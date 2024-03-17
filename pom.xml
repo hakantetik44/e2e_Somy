@@ -18,39 +18,24 @@
         <appium.version>8.4.0</appium.version>
         <log4j.version>2.20.0</log4j.version>
         <junit.version>4.13.2</junit.version>
-
         <maven.surefire.version>3.0.0-M8</maven.surefire.version>
-
-
     </properties>
 
     <dependencies>
-        <!-- Webdriver Manager -->
-
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver -->
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-remote-driver</artifactId>
+            <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-plugin</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -60,22 +45,24 @@
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- Selenium -->
+
+        <!-- Appium -->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-api</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
+
         <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
@@ -83,12 +70,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- Appium -->
-        <dependency>
-            <groupId>io.appium</groupId>
-            <artifactId>java-client</artifactId>
-            <version>${appium.version}</version>
-        </dependency>
+
         <!-- Logger -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -100,6 +82,7 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
         <!-- Cucumber Reporting -->
         <dependency>
             <groupId>net.masterthought</groupId>
@@ -107,10 +90,7 @@
             <version>${cucumber.reporting.version}</version>
         </dependency>
 
-
-
-
-
+        <!-- Other dependencies -->
         <dependency>
             <groupId>com.github.vladislavsevruk</groupId>
             <artifactId>recursive-assertion-assertj</artifactId>
@@ -127,11 +107,11 @@
             <version>20190722</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
+
     <build>
         <plugins>
+            <!-- Maven Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -148,6 +128,8 @@
                     </includes>
                 </configuration>
             </plugin>
+
+            <!-- Maven Cucumber Reporting Plugin -->
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>

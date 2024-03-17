@@ -27,7 +27,7 @@ pipeline {
     post {
         always {
             // Cucumber raporlarını yayınlamak için post-build aşaması
-            cucumber()
+           cucumber(fileIncludePattern: '**/cucumber*.json')
         }
     }
 }
