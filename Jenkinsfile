@@ -23,7 +23,7 @@ pipeline {
         stage('Publish Cucumber Report') {
             steps {
                 script {
-                    def jsonReportDirectory = "target/cucumber-reports"
+                    def jsonReportDirectory = "target"
                     def outputDirectory = "target"
                     def fileIncludePattern = "*.json"
                     def trendsLimit = 0
