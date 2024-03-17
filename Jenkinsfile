@@ -20,24 +20,26 @@ pipeline {
             }
         }
 
-       stage('Publish Cucumber Report') {
-           steps {
-               script {
-                   def jsonReportDirectory = "target/cucumber-reports" // JSON rapor dosyalarının bulunduğu dizini belirtin
-                   def outputDirectory = "target" // Raporların oluşturulacağı dizini belirtin
-                   def fileIncludePattern = "*.json" // Rapor dosyalarının adının neyle başladığını belirtin
-                   def trendsLimit = 0
-                   def ignoreBadSteps = true
-                   def parallelTesting = false
+        stage('Publish Cucumber Report') {
+            steps {
+                script {
+                    def jsonReportDirectory = "target/cucumber-reports" // JSON rapor dosyalarının bulunduğu dizini belirtin
+                    def outputDirectory = "target" // Raporların oluşturulacağı dizini belirtin
+                    def fileIncludePattern = "*.json" // Rapor dosyalarının adının neyle başladığını belirtin
+                    def trendsLimit = 0
+                    def ignoreBadSteps = true
+                    def parallelTesting = false
 
-                   step([$class: 'CucumberReportPublisher',
-                         jsonReportDirectory: jsonReportDirectory,
-                         outputDirectory: outputDirectory,
-                         fileIncludePattern: fileIncludePattern,
-                         trendsLimit: trendsLimit,
-                         ignoreBadSteps: ignoreBadSteps,
-                         parallelTesting: parallelTesting])
-               }
-           }
-       }
-  }
+                    publishCucumberReports(
+                        jsonReportDirectory: jsonReportDirectory,
+                        outputDirectory: outputDirectory,
+                        fileIncludePattern: fileIncludePattern,
+                        trendsLimit: trendsLimit,
+                        ignoreBadSteps: ignoreBadSteps,
+                        parallelTesting: parallelTesting
+                    )
+                }
+            }
+        }
+    }
+}
