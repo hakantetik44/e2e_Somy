@@ -1,0 +1,11 @@
+runner/RunCucumberTest.class
+utils/formatter/ConfigFactory.class
+utils/XrayIntegration.class
+stepdefinitions/PageStepDefsAndroid.class
+pages/BasePageAndroid.class
+stepdefinitions/Hooks.class
+pages/BasePageAndroid$1.class
+utils/formatter/PrettyReports.class
+utils/ConfigReader.class
+utils/DriverMobile.class
+pages/SomfyPages.class
