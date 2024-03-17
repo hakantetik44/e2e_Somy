@@ -26,8 +26,8 @@ public class DriverMobile {
                             //.setAppPackage("com.myfox.android")
                            // .setAppActivity("com.myfox.android.activity.MainActivity")
                             .setApp("src/test/resources/Apps/base.apk")
-                            .setPlatformVersion("14.0")
-                            .setDeviceName("RFCW219R9JR")
+                            .setPlatformVersion("11.0")
+                            .setDeviceName("PIXEL")
                             .setAutomationName("uiautomator2")
                             .setNoReset(false)
                             .setNewCommandTimeout(Duration.ofMinutes(10));
