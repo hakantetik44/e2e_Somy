@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Deploy your application
+                // Uygulamanın dağıtımı için gerekli adımları buraya ekleyin
             }
         }
     }
