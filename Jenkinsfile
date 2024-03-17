@@ -1,3 +1,5 @@
+import groovy.json.JsonOutput
+
 pipeline {
     agent any
 
@@ -22,7 +24,7 @@ pipeline {
         }
         stage('Publish Cucumber Report to Jira') {
             steps {
-                // JsonOutput sınıfını içe aktarma işlemine gerek yok
+                // Cucumber raporunu Jira'ya yükleme işlemi
                 script {
                     def jiraBaseUrl = 'https://myprojecthepsiburada.atlassian.net'
                     def issueKey = 'SUP-6'
@@ -47,11 +49,12 @@ pipeline {
                         acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
-                        requestBody: JsonOutput.toJson(requestBody), // JsonOutput sınıfını kullanarak dönüşüm yapılıyor
+                        requestBody: JsonOutput.toJson(requestBody),
                         responseHandle: 'NONE',
                         url: apiUrl,
                         validResponseCodes: '200'
                     )
+
 
                     if (response.status != 200) {
                         error "Failed to publish Cucumber report to Jira. Status code: ${response.status}, Response: ${response.content}"
