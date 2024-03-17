@@ -10,7 +10,10 @@ pipeline {
 
         stage('Start Appium Server') {
             steps {
-                sh 'appium' // Appium server'ı başlatmak için gerekli komutu buraya yazın
+                script {
+                    // Terminalde Appium'u başlatmak için gerekli komutu buraya yazın
+                    sh 'appium &'
+                }
             }
         }
 
@@ -45,6 +48,13 @@ pipeline {
                         parallelTesting: parallelTesting
                     )
                 }
+            }
+        }
+
+        stage('Stop Appium Server') {
+            steps {
+                // Appium'u sonlandırmak için gerekli komutu buraya yazın
+                sh 'pkill -f "appium"'
             }
         }
     }
