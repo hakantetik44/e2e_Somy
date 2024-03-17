@@ -4,44 +4,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Git repository'yi kontrol et
                 checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                // Maven clean install komutunu çalıştır
                 sh 'mvn clean install'
             }
         }
 
-        stage('Start Appium') {
+        stage('Test') {
             steps {
-                // Appium'u başlat
-                script {
-                    try {
-                        sh 'appium --port 4725' // Appium'u 4725 portunda başlat
-                    } catch (Exception e) {
-                        echo "Appium already running or port in use: $e"
-                    }
-                }
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                // Cucumber testlerini çalıştır
-                sh 'mvn test -Dcucumber.publish.enabled=true'
+                sh 'mvn test'
             }
         }
 
         stage('Publish Cucumber Report') {
             steps {
                 script {
-                    // Cucumber raporlarını oluşturmak için maven-cucumber-reporting eklentisini kullan
-                    def jsonReportDirectory = "/Users/macbook/IdeaProjects/e2e_Somy/target"
-                    def outputDirectory = "/Users/macbook/IdeaProjects/e2e_Somy/target"
+                    def jsonReportDirectory = "target/cucumber-reports"
+                    def outputDirectory = "target"
                     def fileIncludePattern = "*.json"
                     def trendsLimit = 0
                     def ignoreBadSteps = true
