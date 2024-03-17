@@ -44,12 +44,15 @@ pipeline {
                     ]
 
                     def response = httpRequest(
-                        httpMode: 'POST',
-                        requestBody: requestBody,
-                        url: apiUrl,
+                        acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
-                        headers: headers
+                        httpMode: 'POST',
+                        requestBody: JsonOutput.toJson(requestBody),
+                        responseHandle: 'NONE',
+                        url: apiUrl,
+                        validResponseCodes: '200'
                     )
+
 
                     if (response.status != 200) {
                         error "Failed to publish Cucumber report to Jira. Status code: ${response.status}, Response: ${response.content}"
