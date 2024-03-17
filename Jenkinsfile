@@ -2,22 +2,36 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Git repository'yi kontrol et
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Maven clean install komutunu çalıştır
+                sh 'mvn clean install'
+            }
+        }
+
         stage('Start Appium') {
             steps {
-                // Uygulamayı başlatmak için Appium'u çalıştır
-                sh 'appium'
+                // Appium'u başlat
+                script {
+                    try {
+                        sh 'appium --port 4725' // Appium'u 4725 portunda başlat
+                    } catch (Exception e) {
+                        echo "Appium already running or port in use: $e"
+                    }
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Git repository'yi kontrol et
-                checkout scm
-
-                // Maven clean install komutunu çalıştır
-                sh 'mvn clean install'
-
-                // Cucumber raporlarını oluşturmak için Cucumber testlerini çalıştır
+                // Cucumber testlerini çalıştır
                 sh 'mvn test -Dcucumber.publish.enabled=true'
             }
         }
