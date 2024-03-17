@@ -26,7 +26,7 @@ pipeline {
             steps {
                 // Cucumber raporunu Jira'ya yükleme işlemi
                 script {
-                    def jiraBaseUrl = 'https://myprojecthepsiburada.atlassian.net'
+                    def jiraBaseUrl = 'https://myprojecthepsiburada.atlassian.net/rest/raven/1.0/import/execution/cucumber'
                     def issueKey = 'SUP-6'
                     def apiKey = 'ATATT3xFfGF0ZP8IOOf44O5w3keYm4P_yN3eFyYddhiZEcgYuF_cK6ETVXY02DPKGvaDpnDtZMUDF8ESPFh7r4OwTM18JvAk5Rh9jsbJaEwe_1DRQaV5H8jJ5ROTZExTfbr87zWsaHWCvZKyRPgpdR6STYJvKCCektL6sOnAfQN7BTxOoqDceP4=7EB171E2'
 
