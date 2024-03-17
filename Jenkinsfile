@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Publish Cucumber Report to Jira') {
             steps {
-                // Cucumber raporunu Jira'ya yükleme işlemi
+                // JsonOutput sınıfını içe aktarma işlemine gerek yok
                 script {
                     def jiraBaseUrl = 'https://myprojecthepsiburada.atlassian.net'
                     def issueKey = 'SUP-6'
@@ -47,7 +47,7 @@ pipeline {
                         acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
-                        requestBody: groovy.json.JsonOutput.toJson(requestBody),
+                        requestBody: JsonOutput.toJson(requestBody), // JsonOutput sınıfını kullanarak dönüşüm yapılıyor
                         responseHandle: 'NONE',
                         url: apiUrl,
                         validResponseCodes: '200'
