@@ -14,6 +14,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+              sh 'mvn package'
                 // Uygulamanın dağıtımı için gerekli adımları buraya ekleyin
             }
         }
