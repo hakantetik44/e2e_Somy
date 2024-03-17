@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: Exploration de l'onglet Caméra Extérieure dans l'application Somfy
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 37.334 s - in Exploration de l'onglet Caméra Extérieure dans l'application Somfy
