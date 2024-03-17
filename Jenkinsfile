@@ -4,17 +4,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                // Maven projesini temizle ve derle
+                sh 'mvn clean compile'
             }
         }
         stage('Test') {
             steps {
-               sh 'mvn test -Dcucumber.publish.enabled=true'
+                // Cucumber testlerini çalıştır ve raporu oluştur
+                sh 'mvn test -Dcucumber.publish.enabled=true'
             }
         }
         stage('Deploy') {
             steps {
-              sh 'mvn package'
                 // Uygulamanın dağıtımı için gerekli adımları buraya ekleyin
             }
         }
