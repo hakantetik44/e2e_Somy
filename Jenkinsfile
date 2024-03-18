@@ -36,7 +36,7 @@ pipeline {
                        httpMode: 'POST',
                        requestBody: readFile('cucumber.json'),
                        url: 'https://myprojecthepsiburada.atlassian.net/browse/SUP-6',
-                       validResponseCodes: '200' // or valid status codes for your case
+                       validResponseCodes: 200 // or valid status codes for your case
                    )
 
                    // If the response code is not in the accepted range
@@ -54,7 +54,7 @@ pipeline {
                                httpMode: 'POST',
                                requestBody: readFile('cucumber.json'),
                                url: redirectedUrl,
-                               validResponseCodes: '200' // or valid status codes for your case
+                               validResponseCodes: 200 // or valid status codes for your case
                            )
 
                            // Check the status code of the redirected response
@@ -69,4 +69,5 @@ pipeline {
                }
            }
        }
-
+    }
+}
