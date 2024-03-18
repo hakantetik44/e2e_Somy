@@ -31,7 +31,7 @@ pipeline {
                         authentication: 'BASIC',
                         requestBody: "{\"data\": \"$cucumberJsonContent\"}",
                         customHeaders: [[name: 'Authorization', value: env.JIRA_AUTHORIZATION]],
-                        contentType: 'application/json'
+                        contentType: 'application/json' // Burada contentType parametresi belirtilmiş olmalı
                     )
 
                     if (response.status != 200) {
