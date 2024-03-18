@@ -14,15 +14,9 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean test -Dtest=RunCucumberTest'
-            }
-        }
-
         stage('Test') {
             steps {
-                sh 'mvn verify'
+                sh 'mvn clean test -Dtest=RunCucumberTest'
             }
         }
 
