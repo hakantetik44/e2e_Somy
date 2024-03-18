@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Git repository'i klonlama adımı
+                // Git repository'yi klonlama adımı
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],
                           doGenerateSubmoduleConfigurations: false,
