@@ -38,7 +38,7 @@ pipeline {
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
                         requestBody: readFile('cucumber.json'),
-                        url: 'https://myprojecthepsiburada.atlassian.net/rest/raven/1.0/import/execution/cucumber/SUP-6',
+                        url: 'https://myprojecthepsiburada.atlassian.net/jira/servicedesk/projects/SUP/queues/custom/1/rest/raven/1.0/import/execution/cucumber/SUP-6',
                         validResponseCodes: '200'
                     )
                     if (response.status != 200) {
