@@ -1,4 +1,5 @@
 import groovy.json.JsonOutput
+
 pipeline {
     agent any
 
@@ -32,7 +33,7 @@ pipeline {
                     def apiUrl = "${jiraBaseUrl}"
                     def headers = [
                         'Content-Type': 'application/json',
-                        'Authorization': "Basic ${apiKey}"
+                        'Authorization': "Bearer ${apiKey}"
                     ]
 
                     def cucumberReport = readFile('cucumber.json')
@@ -51,8 +52,7 @@ pipeline {
                         requestBody: JsonOutput.toJson(requestBody),
                         responseHandle: 'NONE',
                         url: apiUrl,
-                        authentication: 'Bearer',
-                        token: apiKey,
+                        headers: headers, // Kimlik doğrulama başlığını burada belirtin
                         validResponseCodes: '200'
                     )
 
