@@ -22,18 +22,13 @@ pipeline {
 
         stage('Import Cucumber Report to Jira') {
             steps {
-                script {
-                     stage('Import Cucumber Report to Jira') {
-                               steps {
-                                   script {
-                                       def reportData = readFile 'path/to/cucumber_report.json'
-                                       sh "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Basic <base64-encoded-username-and-api-token>' -d '${reportData}' 'https://your-jira-instance.atlassian.net/rest/api/latest/issue/SUP-6/import'"
-                    )
-
-                    if (response.status != 200) {
-                        error "Fail: Status code ${response.status} is not in the accepted range: 200 while calling ${env.JIRA_API_URL}"
-                    }
-                }
+                httpRequest(
+                    contentType: 'APPLICATION_JSON',
+                    httpMode: 'POST',
+                    requestBody: readFile('path/to/cucumber_report.json'),
+                    url: env.JIRA_API_URL,
+                    authentication: env.JIRA_AUTHORIZATION
+                )
             }
         }
     }
