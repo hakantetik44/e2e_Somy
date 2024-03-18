@@ -3,63 +3,43 @@ import groovy.json.JsonOutput
 pipeline {
     agent any
 
+    environment {
+        apiToken = credentials('jira-api-token') // Jira API tokenini credential'dan al
+        apiUrl = 'https://myprojecthepsiburada.atlassian.net/rest/raven/1.0/import/execution/cucumber/SUP-6' // Jira API URL'si
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                // Git checkout işlemi
-                checkout scm
+                // Checkout işlemleri buraya gelecek
             }
         }
+
         stage('Test') {
             steps {
-                // Test işlemleri (örneğin Maven)
-                sh 'mvn clean test -Dtest=RunCucumberTest'
+                // Test işlemleri buraya gelecek
             }
         }
+
         stage('Copy Cucumber Report') {
             steps {
-                // Cucumber raporunu kopyala
-                sh 'cp /Users/macbook/IdeaProjects/e2e_Somy/target/cucumber.json ./'
+                // Cucumber raporunu kopyala işlemleri buraya gelecek
             }
         }
+
         stage('Publish Cucumber Report to Jira') {
             steps {
-                // Cucumber raporunu Jira'ya yükleme işlemi
                 script {
-                    def jiraBaseUrl = 'https://myprojecthepsiburada.atlassian.net'
-                    def issueKey = 'SUP-6'
-
-                    def apiUrl = "${jiraBaseUrl}/rest/raven/1.0/import/execution/cucumber/${issueKey}"
-                    def apiKey = 'ATATT3xFfGF0ZP8IOOf44O5w3keYm4P_yN3eFyYddhiZEcgYuF_cK6ETVXY02DPKGvaDpnDtZMUDF8ESPFh7r4OwTM18JvAk5Rh9jsbJaEwe_1DRQaV5H8jJ5ROTZExTfbr87zWsaHWCvZKyRPgpdR6STYJvKCCektL6sOnAfQN7BTxOoqDceP4=7EB171E2'
-
-                    def headers = [
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer ${apiKey}"
-                    ]
-
-                    def cucumberReport = readFile('cucumber.json')
-                    def requestBody = [
-                        issueKeys: [issueKey],
-                        results: [
-                            format: 'cucumber',
-                            cucumberResults: cucumberReport
-                        ]
-                    ]
-
                     def response = httpRequest(
                         acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
-                        requestBody: JsonOutput.toJson(requestBody),
+                        requestBody: readFile('cucumber.json'),
                         url: apiUrl,
-                        headers: headers,
                         validResponseCodes: '200'
                     )
-
                     if (response.status != 200) {
-                        error "Jira'ya Cucumber raporu gönderme başarısız oldu. Durum kodu: ${response.status}, Yanıt: ${response.content}"
-                    } else {
-                        echo "Cucumber raporu başarıyla Jira'ya gönderildi."
+                        error("Fail: Status code ${response.status} is not in the accepted range: 200")
                     }
                 }
             }
