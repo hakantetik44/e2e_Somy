@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Git repository'yi klonlama adımı
                 checkout([$class: 'GitSCM',
                           branches: [[name: '*/main']],
                           doGenerateSubmoduleConfigurations: false,
@@ -17,21 +16,18 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Test adımları buraya gelecek (örneğin: Maven, Gradle, vb.)
-                sh 'mvn clean test -Dtest=RunCucumberTest' // Örnek Maven test komutu
+                sh 'mvn clean test -Dtest=RunCucumberTest'
             }
         }
 
         stage('Copy Cucumber Report') {
             steps {
-                // Cucumber raporunu kopyalama adımı
                 sh 'cp /Users/macbook/IdeaProjects/e2e_Somy/target/cucumber.json ./'
             }
         }
 
         stage('Publish Cucumber Report to Jira') {
             steps {
-                // Cucumber raporunu Jira'ya yayınlama adımı
                 script {
                     def response = httpRequest(
                         acceptType: 'APPLICATION_JSON',
