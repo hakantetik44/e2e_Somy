@@ -1,5 +1,3 @@
-import groovy.json.JsonOutput
-
 pipeline {
     agent any
 
@@ -30,7 +28,7 @@ pipeline {
                     def issueKey = 'SUP-6'
                     def apiKey = 'ATATT3xFfGF0ZP8IOOf44O5w3keYm4P_yN3eFyYddhiZEcgYuF_cK6ETVXY02DPKGvaDpnDtZMUDF8ESPFh7r4OwTM18JvAk5Rh9jsbJaEwe_1DRQaV5H8jJ5ROTZExTfbr87zWsaHWCvZKyRPgpdR6STYJvKCCektL6sOnAfQN7BTxOoqDceP4=7EB171E2'
 
-                    def apiUrl = "${jiraBaseUrl}/rest/raven/1.0/import/execution/cucumber"
+                    def apiUrl = "${jiraBaseUrl}"
                     def headers = [
                         'Content-Type': 'application/json',
                         'Authorization': "Basic ${apiKey}"
@@ -52,14 +50,15 @@ pipeline {
                         requestBody: JsonOutput.toJson(requestBody),
                         responseHandle: 'NONE',
                         url: apiUrl,
+                        authentication: 'Bearer',
+                        token: apiKey,
                         validResponseCodes: '200'
                     )
 
-
                     if (response.status != 200) {
-                        error "Failed to publish Cucumber report to Jira. Status code: ${response.status}, Response: ${response.content}"
+                        error "Jira'ya Cucumber raporu gönderme başarısız oldu. Durum kodu: ${response.status}, Yanıt: ${response.content}"
                     } else {
-                        echo "Cucumber report published to Jira successfully."
+                        echo "Cucumber raporu başarıyla Jira'ya gönderildi."
                     }
                 }
             }
