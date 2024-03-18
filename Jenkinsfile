@@ -23,15 +23,11 @@ pipeline {
         stage('Import Cucumber Report to Jira') {
             steps {
                 script {
-                    def cucumberJsonContent = readFile(file: env.CUCUMBER_JSON_PATH).trim()
-
-                    def response = httpRequest(
-                        httpMode: 'POST',
-                        url: env.JIRA_API_URL,
-                        authentication: 'BASIC',
-                        requestBody: "{\"data\": \"$cucumberJsonContent\"}",
-                        customHeaders: [[name: 'Authorization', value: env.JIRA_AUTHORIZATION]],
-                        contentType: 'application/json' // Burada contentType parametresi belirtilmiş olmalı
+                     stage('Import Cucumber Report to Jira') {
+                               steps {
+                                   script {
+                                       def reportData = readFile 'path/to/cucumber_report.json'
+                                       sh "curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Basic <base64-encoded-username-and-api-token>' -d '${reportData}' 'https://your-jira-instance.atlassian.net/rest/api/latest/issue/SUP-6/import'"
                     )
 
                     if (response.status != 200) {
