@@ -8,6 +8,24 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean test -Dtest=RunCucumberTest'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn verify'
+            }
+        }
+
         stage('Import Cucumber Report to Jira') {
             steps {
                 script {
@@ -27,6 +45,21 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            junit '**/target/surefire-reports/TEST-*.xml'
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
+
+        success {
+            echo 'Build succeeded!'
+        }
+
+        failure {
+            echo 'Build failed!'
         }
     }
 }
