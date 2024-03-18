@@ -1,39 +1,44 @@
 pipeline {
     agent any
 
-    environment {
-        apiToken = credentials('jira-api-token') // Jira API tokenini credential'dan al
-        apiUrl = 'https://myprojecthepsiburada.atlassian.net/rest/raven/1.0/import/execution/cucumber/SUP-6' // Jira API URL'si
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                // Checkout işlemleri buraya gelecek
+                // Git repository'i klonlama adımı
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions: [],
+                          submoduleCfg: [],
+                          userRemoteConfigs: [[url: 'git@github.com:hakantetik44/e2e_Somy.git']]
+                         ])
             }
         }
 
         stage('Test') {
             steps {
-                // Test işlemleri buraya gelecek
+                // Test adımları buraya gelecek (örneğin: Maven, Gradle, vb.)
+                sh 'mvn clean test -Dtest=RunCucumberTest' // Örnek Maven test komutu
             }
         }
 
         stage('Copy Cucumber Report') {
             steps {
-                // Cucumber raporunu kopyala işlemleri buraya gelecek
+                // Cucumber raporunu kopyalama adımı
+                sh 'cp /Users/macbook/IdeaProjects/e2e_Somy/target/cucumber.json ./'
             }
         }
 
         stage('Publish Cucumber Report to Jira') {
             steps {
+                // Cucumber raporunu Jira'ya yayınlama adımı
                 script {
                     def response = httpRequest(
                         acceptType: 'APPLICATION_JSON',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
                         requestBody: readFile('cucumber.json'),
-                        url: apiUrl,
+                        url: 'https://myprojecthepsiburada.atlassian.net/rest/raven/1.0/import/execution/cucumber/SUP-6',
                         validResponseCodes: '200'
                     )
                     if (response.status != 200) {
